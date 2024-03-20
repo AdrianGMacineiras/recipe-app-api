@@ -1,0 +1,22 @@
+version: "3.9"
+
+
+services:
+  #Nombre del servicio
+  app:
+    # Construir el contexto en el directorio donde se encuentra el archivo
+    build:
+      context: .
+      # Sobreescribe el valor del argumento DEV para indicar que estamos en modo de desarrollo
+      args:
+        - DEV=true
+    # Mapeo de puertos local:maquina-virtual
+    ports:
+      - "8000:8000"
+    # Mapeo de directorios local:container, queremos que las modificaciones se vean reflejadas 
+    # en el container en tiempo real y no reconstruir la imagen con cada cambio
+    volumes:
+      - ./app:/app
+    # Comando que se usara para arrancar el servicio
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"

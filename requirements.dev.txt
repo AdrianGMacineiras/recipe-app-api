@@ -1,0 +1,6 @@
+# La razon por la que se separa en un nuevo archivo es por que vamos a crear un paso custom a nuestra build
+# para que solo se instalen estos requerimientos de desarrollo cuando creemos una imagen para nuestro servidor 
+# local de desarrollo
+# No necesitamos el paquete de flake8 cuando despleguemos nuestra aplicación, es sólo para desarrollo.
+# Separando asi las dependencias de despliegue y desarrollo.
+flake8>=3.9.2<3.10
