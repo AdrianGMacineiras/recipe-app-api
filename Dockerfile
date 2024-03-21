@@ -22,6 +22,11 @@ ARG DEV=false
 RUN python -m venv /py && \
     #Upgrade nuestro espacio virtual
     /py/bin/pip install --upgrade pip && \
+    # Instalar cliente postgresql
+    apk add --update --no-cache postgresql-client &&\
+    # Paquete de dependencia virtual
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev &&\
     #Installamos el fichero de requerimientos que copiamos previamente
     /py/bin/pip install -r /tmp/requirements.txt && \
     # Si el argumento DEV es true se instalan las dependencias de desarrollo
@@ -30,6 +35,8 @@ RUN python -m venv /py && \
     fi && \
     #Eliminamos el fichero tmp por que no queremos dependencias extras para tener el docker lo más ligero posible
     rm -rf /tmp && \
+    # Borrar los paquetes virtuales
+    apk del .tmp-build-deps && \
     #Añade un nuevo user en nuestra imagen, por que es buena practica no usar el usuario root
     adduser \
         --disabled-password \
